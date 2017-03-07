@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+{% load bootstrap3 %}
+{% load staticfiles %}
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>{% block title %}vpnadm{% endblock %}</title>
+		<link rel="stylesheet" href="{% static "bootstrap-3.3.7-dist/css/bootstrap.min.css" %}">
+		<link rel="stylesheet" href="{% static "bootstrap-3.3.7-dist/css/bootstrap-theme.min.css" %}">
+		<link rel="stylesheet" href="{% static "vpnadm.css" %}">
+		{% block extrahead %}{% endblock %}
+	</head>
+	<body>
+		<div class="navbar navbar-inverse navbar-static-top" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">vpnadm</a>
+				</div>
+				{% if user.is_staff %}
+				<ul class="nav navbar-nav">
+					<li><a href="{% url "staffpanel_user_list" %}">Users</a></li>
+					<li><a href="{% url "serversettings_update" %}">Settings</a></li>
+				</ul>
+				{% endif %}
+				
+				<div class="navbar-collapsex collapsex">
+					<ul class="nav navbar-nav navbar-right">
+						{% if user.is_authenticated %}
+							<li><a href="{% url "password_change" %}">Logged in as <strong>{{ user.username }}</strong></a></li>
+							<li><a href="{% url "logout_then_login" %}">Logout</a></li>
+						{% else %}
+							<li><a href="{% url "login" %}">Login</a></li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="container-fluid" role="main">
+			{% block content %}{% endblock %}
+		</div>
+
+		<script src="{% static "jquery-3.1.1.min.js" %}"></script>
+		<script src="{% static "bootstrap-3.3.7-dist/js/bootstrap.min.js" %}"></script>
+		<script src="{% static "bootbox.min.js" %}"></script>
+		<script src="{% static "vpnadm.js" %}"></script>
+	</body>
+</html>

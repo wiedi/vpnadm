@@ -1,0 +1,19 @@
+body {
+	padding-bottom: 30px;
+}
+
+.navbar-inverse * {
+	background-color: #168 !important;
+}
+
+.navbar a {
+	color: #eee !important;
+}
+
+.navbar a:hover {
+	color: #fff !important;
+}
+
+h1 {
+	margin-bottom: 1em;
+}

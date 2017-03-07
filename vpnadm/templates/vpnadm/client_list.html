@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+
+<h1>Clients</h1>
+
+{% bootstrap_messages %}
+
+<a href="{% url "client_add" %}" class="btn btn-success pull-right">{% bootstrap_icon "plus" %} New</a>
+
+<table class="table table-striped table-condensed table-hover">
+	<thead>
+	<tr>
+		{% if user.is_staff %}
+		<th>User</th>
+		{% endif %}
+		<th>Client Name</th><th>IPv4</th><th>IPv6</th><th>&nbsp;</th>
+	</tr>
+	</thead>
+	{% for client in object_list %}
+	<tr>
+		{% if user.is_staff %}
+			<td>{{ client.user.username }}</td>
+		{% endif %}
+		<td title="{{ client.username }}">{{ client.name }}</td>
+		<td>{{ client.ipv4 }}</td>
+		<td>{{ client.ipv6 }}</td>
+		<td>
+			<form action="{% url "client_delete" client.id %}" method="post" class="confirm-delete inline-form pull-right">
+				{% csrf_token %}
+				<input type="submit" value="Delete" class="btn btn-xs btn-danger"/>
+			</form>
+
+			<form action="{% url "client_reset_password" client.id %}" method="post" class="confirm-delete inline-form pull-right">
+				{% csrf_token %}
+				<input type="submit" value="Reset Password" class="btn btn-xs btn-default"/>
+				&nbsp;
+			</form>
+			<span class="pull-right">
+				<a href="{% url "client_download_config" client.id %}" class="btn btn-default btn-xs">Download Config</a>
+				&nbsp;
+			</span>
+		</td>
+	</tr>
+	{% endfor %}
+</table>
+
+
+
+{% endblock %}

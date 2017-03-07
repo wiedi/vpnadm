@@ -1,0 +1,4 @@
+Django==1.10.6
+django-bootstrap3==8.2.1
+django-braces==1.11.0
+
