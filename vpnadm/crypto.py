@@ -5,6 +5,10 @@ import datetime
 DEFAULT_KEY_SIZE  = 4096
 DEFAULT_HASH_ALGO = SHA512
 
+def generate_serial():
+	from cryptography.x509 import random_serial_number
+	return str(random_serial_number())
+
 def generate_default_private_key():
 	from cryptography.hazmat.backends import default_backend
 	from cryptography.hazmat.primitives.asymmetric import rsa, ec
@@ -46,7 +50,7 @@ def sign_key(client_key_pem, ca_key_pem, ca_crt_pem, cn, serial):
 	).public_key(
 		client_key.public_key()
 	).serial_number(
-		serial
+		int(serial)
 	).not_valid_before(
 		datetime.datetime.utcnow()
 	).not_valid_after(

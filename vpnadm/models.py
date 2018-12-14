@@ -10,23 +10,22 @@ from vpnadm.crypto import *
 
 class Client(models.Model):
 	user          = models.ForeignKey(User)
-	name          = models.CharField(max_length=255)
+	name          = models.CharField(max_length = 255)
 	ipv4          = models.GenericIPAddressField(protocol = 'IPv4', unique = True)
 	ipv6          = models.GenericIPAddressField(protocol = 'IPv6', unique = True)
 
 	key           = models.TextField(blank = True)
 	crt           = models.TextField(blank = True)
+	serial        = models.CharField(blank = True, max_length = 128)
 
 	def cn(self):
 		return self.user.username + '-' + slugify(self.name) + '-' + str(self.id)
 
-	def serial(self):
-		return self.pk
-
 	def generate_keys(self):
 		s = ServerSettings.get()
-		self.key = generate_private_key_pem()
-		self.crt = sign_key(self.key, s.ca_key, s.ca_crt, self.cn(), self.serial())
+		self.serial = generate_serial()
+		self.key    = generate_private_key_pem()
+		self.crt    = sign_key(self.key, s.ca_key, s.ca_crt, self.cn(), self.serial)
 		self.save()
 
 
