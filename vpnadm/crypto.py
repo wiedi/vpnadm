@@ -77,15 +77,7 @@ def sign_key(client_key_pem, ca_key_pem, ca_crt_pem, cn, serial):
 	return cert_pem
 
 
-def generate_ca(
-		lifetime,
-		cn,
-		organization,
-		organizational_unit, 
-		locality,
-		state,
-		country,
-	):
+def generate_ca():
 	from cryptography.hazmat.backends import default_backend
 	from cryptography.hazmat.primitives import serialization
 	from cryptography.x509.oid import NameOID
