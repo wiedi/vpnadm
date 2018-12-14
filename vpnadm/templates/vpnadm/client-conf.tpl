@@ -12,12 +12,9 @@ auth SHA512
 tls-version-min 1.2
 remote-cert-tls server
 <ca>
-{{ server.ca }}
-</ca>
+{{ server.ca_crt }}</ca>
+<cert>
+{{ client.crt }}</cert>
+<key>
+{{ client.key }}</key>
 key-direction 1
-<tls-auth>
-
-</tls-auth>
-<dh>
-{{ server.dh }}
-</dh>

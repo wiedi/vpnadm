@@ -120,11 +120,26 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 # VPNADM Settings
 
+## CA Defaults
+
+CA_LIFETIME_IN_DAYS = 360 * 50
+CA_CN = 'VPN CA'
+CA_O  = 'O'
+CA_OU = 'OU'
+CA_L  = 'L'
+CA_ST = 'ST'
+CA_C  = 'UN'
+
+CERT_LIFETIME_IN_DAYS = 360 * 25
+
+
 VPN_SSL_PATH = '/opt/local/etc/openvpn/ssl/'
 
 # can be 'UDP' or 'TCP'
-VPN_PROTO   = 'UDP'
-
-VPN_SERVER_PORT = 1194
-
+VPN_PROTO           = 'UDP'
+VPN_SERVER_PORT     = 1194
+VPN_HOSTNAME        = 'vpn.example.com'
 VPN_MANAGEMENT_PORT = 1337
+
+
+

@@ -36,9 +36,6 @@ class ClientCreate(LoginRequiredMixin, CreateView):
 		self.object = form.save(commit=False)
 		self.object.user = self.request.user
 
-		new_password = User.objects.make_random_password(length=20)
-		self.object.set_password(new_password)
-
 		self.object.ipv4 = str(ServerSettings.get().allocate_v4() or '')
 		self.object.ipv6 = str(ServerSettings.get().allocate_v6() or '')
 
@@ -46,24 +43,25 @@ class ClientCreate(LoginRequiredMixin, CreateView):
 			messages.error(self.request, "Failed to allocate IP Address")
 			return redirect(self.success_url)
 
+		self.object.save() # need PK for next step
+		self.object.generate_keys()
 		self.object.save()
-		messages.success(self.request, "New client added, the password is: " + new_password)
+
 		return super(ClientCreate, self).form_valid(form)
 
 
 @require_POST
 @login_required
-def client_reset_password(request, pk):
+def client_reset_cert(request, pk):
 	c = get_object_or_404(Client, pk = pk)
 	
 	if not request.user.is_staff and c.user != request.user:
 		raise Http404
 	
-	new_password = User.objects.make_random_password(length=20)
-	c.set_password(new_password)
+	c.generate_keys()
 	c.save()
 
-	messages.success(request, "Password set to: " + new_password)
+	messages.success(request, "Key regenerated, please download your new config.")
 
 	return redirect('client_list')
 
@@ -74,12 +72,18 @@ def client_download_config(request, pk):
 	if not request.user.is_staff and c.user != request.user:
 		raise Http404
 
+	s = ServerSettings.get()
 	conf = render_to_string('vpnadm/client-conf.tpl', {
 		'client': c,
-		'server': {},
+		'server': {
+			'ca_crt':   s.ca_crt,
+			'proto':    settings.VPN_PROTO,
+			'port':     settings.VPN_SERVER_PORT,
+			'hostname': settings.VPN_HOSTNAME,
+		},
 	})
 	response = HttpResponse(conf, content_type='application/octet-stream')
-	response['Content-Disposition'] = 'attachment; filename="' + c.username() + '.ovpn"'
+	response['Content-Disposition'] = 'attachment; filename="' + c.cn() + '.ovpn"'
 	return response
 
 

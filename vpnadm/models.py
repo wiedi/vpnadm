@@ -1,30 +1,39 @@
+import ipaddress
+import itertools
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.contrib.auth.hashers import make_password
-import ipaddress
 from vpnadm.utils import *
-import itertools
-import ipaddress
-
-
+from vpnadm.crypto import *
 
 
 class Client(models.Model):
 	user          = models.ForeignKey(User)
 	name          = models.CharField(max_length=255)
-	password      = models.CharField(max_length=255)
 	ipv4          = models.GenericIPAddressField(protocol = 'IPv4', unique = True)
 	ipv6          = models.GenericIPAddressField(protocol = 'IPv6', unique = True)
 
-	def username(self):
+	key           = models.TextField(blank = True)
+	crt           = models.TextField(blank = True)
+
+	def cn(self):
 		return self.user.username + '-' + slugify(self.name) + '-' + str(self.id)
-	
-	def set_password(self, password):
-		self.password = make_password(password)
+
+	def serial(self):
+		return self.pk
+
+	def generate_keys(self):
+		s = ServerSettings.get()
+		self.key = generate_private_key_pem()
+		self.crt = sign_key(self.key, s.ca_key, s.ca_crt, self.cn(), self.serial())
+		self.save()
 
 
 class ServerSettings(SingletonModel):
+	ca_key      = models.TextField(blank = True)
+	ca_crt      = models.TextField(blank = True)
+
 	first_ipv4  = models.GenericIPAddressField(protocol = 'IPv4', default='10.0.0.2')
 	last_ipv4   = models.GenericIPAddressField(protocol = 'IPv4', default='10.0.0.253')
 

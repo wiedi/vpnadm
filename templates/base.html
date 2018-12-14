@@ -17,10 +17,13 @@
 				<div class="navbar-header">
 					<a class="navbar-brand" href="/">vpnadm</a>
 				</div>
-				{% if user.is_staff %}
+				{% if user.is_authenticated %}
 				<ul class="nav navbar-nav">
+					<li><a href="{% url "client_list" %}">Clients</a></li>
+					{% if user.is_staff %}
 					<li><a href="{% url "staffpanel_user_list" %}">Users</a></li>
 					<li><a href="{% url "serversettings_update" %}">Settings</a></li>
+					{% endif %}
 				</ul>
 				{% endif %}
 				
