@@ -10,9 +10,9 @@ class Command(BaseCommand):
 	help = 'generate a new DH parameter'
 
 	def handle(self, *args, **options):
-		dh = subprocess.check_output(['openssl', 'dhparam', '4096'], stderr = None).decode("utf-8").strip()
+		dh = subprocess.check_output(['openssl', 'dhparam', settings.DH_KEYSIZE], stderr = None).decode("utf-8").strip()
 		s = ServerSettings.get()
 		s.dh = dh
 		s.save()
 
-		print('Done')
+		print(s.dh)

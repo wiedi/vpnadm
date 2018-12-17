@@ -129,6 +129,7 @@ CA_OU = 'OU'
 CA_L  = 'L'
 CA_ST = 'ST'
 CA_C  = 'UN'
+DH_KEYSIZE = '4096'
 
 CERT_LIFETIME_IN_DAYS = 360 * 25
 

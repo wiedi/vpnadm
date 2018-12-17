@@ -18,4 +18,4 @@ class Command(BaseCommand):
 			s.ta_key = t.read()
 			s.save()
 
-		print('Done')
+		print(s.ta_key.decode('utf-8'))
