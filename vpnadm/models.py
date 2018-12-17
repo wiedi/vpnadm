@@ -36,6 +36,25 @@ class Client(models.Model):
 		self.save()
 
 
+
+class Route4(models.Model):
+	target  = models.GenericIPAddressField(protocol = 'IPv4')
+	netmask = models.GenericIPAddressField(protocol = 'IPv4')
+	client  = models.ForeignKey(Client, null = True, blank = True)
+
+	def __str__(self):
+		return self.target + ' ' + str(self.netmask)
+
+
+class Route6(models.Model):
+	target  = models.GenericIPAddressField(protocol = 'IPv6')
+	prefix  = models.IntegerField(default = 64)
+	client  = models.ForeignKey(Client, null = True, blank = True)
+
+	def __str__(self):
+		return self.target + '/' + str(self.prefix)
+
+
 class ServerSettings(SingletonModel):
 	ca_key       = models.TextField(blank = True)
 	ca_crt       = models.TextField(blank = True)

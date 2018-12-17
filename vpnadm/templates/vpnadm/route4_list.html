@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+
+<h1>IPv4 Routes</h1>
+
+{% bootstrap_messages %}
+
+<a href="{% url 'route4_add' %}" class="btn btn-success pull-right">{% bootstrap_icon "plus" %} New</a>
+
+<table class="table table-striped table-condensed table-hover">
+	<thead>
+	<tr>
+		<th>Route</th><th>Netmask</th><th>Client</th><th>&nbsp;</th>
+	</tr>
+	</thead>
+	{% for r in object_list %}
+	<tr>
+		<td>{{ r.target }}</td>
+		<td>{{ r.netmask }}</td>
+		<td>{{ r.client|default:'-' }}</td>
+		<td>
+			<form action="{% url 'route4_delete' r.id %}" method="post" class="confirm-delete inline-form pull-right">
+				{% csrf_token %}
+				<input type="submit" value="Delete" class="btn btn-xs btn-danger"/>
+			</form>
+		</td>
+	</tr>
+	{% endfor %}
+</table>
+
+
+
+{% endblock %}

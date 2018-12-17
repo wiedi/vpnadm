@@ -30,9 +30,21 @@ class Command(BaseCommand):
 			client_conf = [
 				"ifconfig-push "      + c.ipv4 + " " + s.ipv4_netmask,
 				"ifconfig-ipv6-push " + c.ipv6 + "/" + str(s.ipv6_prefix),
-				"",
 			]
 
+			for r4 in Route4.objects.all():
+				client_conf += ["route " + str(r4), 'push "route ' + str(r4) + '"']
+
+			for r6 in Route6.objects.all():
+				client_conf += ["route-ipv6 " + str(r6), 'push "route-ipv6 ' + str(r6) + '"']
+
+			for r4 in Route4.objects.filter(client = c):
+				client_conf += ["iroute " + str(r4)]
+
+			for r6 in Route6.objects.filter(client = c):
+				client_conf += ["iroute-ipv6 " + str(r6)]
+
+			client_conf += [""]
 			open(options['tmpfile'], 'wb').write("\n".join(client_conf).encode('utf-8'))
 
 

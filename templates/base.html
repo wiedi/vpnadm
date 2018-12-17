@@ -6,9 +6,9 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>{% block title %}vpnadm{% endblock %}</title>
-		<link rel="stylesheet" href="{% static "bootstrap-3.3.7-dist/css/bootstrap.min.css" %}">
-		<link rel="stylesheet" href="{% static "bootstrap-3.3.7-dist/css/bootstrap-theme.min.css" %}">
-		<link rel="stylesheet" href="{% static "vpnadm.css" %}">
+		<link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.min.css' %}">
+		<link rel="stylesheet" href="{% static 'bootstrap-3.3.7-dist/css/bootstrap-theme.min.css' %}">
+		<link rel="stylesheet" href="{% static 'vpnadm.css' %}">
 		{% block extrahead %}{% endblock %}
 	</head>
 	<body>
@@ -19,10 +19,12 @@
 				</div>
 				{% if user.is_authenticated %}
 				<ul class="nav navbar-nav">
-					<li><a href="{% url "client_list" %}">Clients</a></li>
+					<li><a href="{% url 'client_list' %}">Clients</a></li>
 					{% if user.is_staff %}
-					<li><a href="{% url "staffpanel_user_list" %}">Users</a></li>
-					<li><a href="{% url "serversettings_update" %}">Settings</a></li>
+					<li><a href="{% url 'staffpanel_user_list' %}">Users</a></li>
+					<li><a href="{% url 'route4_list' %}">IPv4 Routes</a></li>
+					<li><a href="{% url 'route6_list' %}">IPv6 Routes</a></li>
+					<li><a href="{% url 'serversettings_update' %}">Settings</a></li>
 					{% endif %}
 				</ul>
 				{% endif %}
@@ -30,10 +32,10 @@
 				<div class="navbar-collapsex collapsex">
 					<ul class="nav navbar-nav navbar-right">
 						{% if user.is_authenticated %}
-							<li><a href="{% url "password_change" %}">Logged in as <strong>{{ user.username }}</strong></a></li>
-							<li><a href="{% url "logout_then_login" %}">Logout</a></li>
+							<li><a href="{% url 'password_change' %}">Logged in as <strong>{{ user.username }}</strong></a></li>
+							<li><a href="{% url 'logout_then_login' %}">Logout</a></li>
 						{% else %}
-							<li><a href="{% url "login" %}">Login</a></li>
+							<li><a href="{% url 'login' %}">Login</a></li>
 						{% endif %}
 					</ul>
 				</div>
@@ -44,9 +46,9 @@
 			{% block content %}{% endblock %}
 		</div>
 
-		<script src="{% static "jquery-3.1.1.min.js" %}"></script>
-		<script src="{% static "bootstrap-3.3.7-dist/js/bootstrap.min.js" %}"></script>
-		<script src="{% static "bootbox.min.js" %}"></script>
-		<script src="{% static "vpnadm.js" %}"></script>
+		<script src="{% static 'jquery-3.1.1.min.js' %}"></script>
+		<script src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'bootbox.min.js' %}"></script>
+		<script src="{% static 'vpnadm.js' %}"></script>
 	</body>
 </html>

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+	<h1>Add new IPv6 Route</h1>
+	<form method="post" class="form-horizontal" role="form">
+		{% csrf_token %}
+		{% bootstrap_form form layout='horizontal' %}
+		{% buttons layout='horizontal' submit='OK' %}
+		{% endbuttons %}
+	</form>
+{% endblock %}

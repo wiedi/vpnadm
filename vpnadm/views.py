@@ -12,6 +12,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from vpnadm.models import *
+from vpnadm.utils import *
 
 @login_required
 def status(request):
@@ -111,4 +112,37 @@ class ServerSettingsUpdate(LoginRequiredMixin, UpdateView):
 		return ServerSettings.get()
 
 
-	
+class Route4List(StaffRequiredMixin, ListView):
+	model = Route4
+
+	def get_queryset(self):
+		if not self.request.user.is_staff:
+			return Route4.objects.none()
+		return Route4.objects.all()
+
+class Route4Create(StaffRequiredMixin, CreateView):
+	model = Route4
+	fields = ['target', 'netmask', 'client']
+	success_url = reverse_lazy('route4_list')
+
+class Route4Delete(StaffRequiredMixin, DeleteView):
+	model = Route4
+	success_url = reverse_lazy('route4_list')
+
+
+class Route6List(StaffRequiredMixin, ListView):
+	model = Route6
+
+	def get_queryset(self):
+		if not self.request.user.is_staff:
+			return Route6.objects.none()
+		return Route6.objects.all()
+
+class Route6Create(StaffRequiredMixin, CreateView):
+	model = Route6
+	fields = ['target', 'prefix', 'client']
+	success_url = reverse_lazy('route6_list')
+
+class Route6Delete(StaffRequiredMixin, DeleteView):
+	model = Route6
+	success_url = reverse_lazy('route6_list')
