@@ -21,6 +21,9 @@ class Client(models.Model):
 	def cn(self):
 		return self.user.username + '-' + slugify(self.name) + '-' + str(self.id)
 
+	def __str__(self):
+		return self.cn()
+
 	def generate_keys(self):
 		s = ServerSettings.get()
 		self.serial = generate_serial()
