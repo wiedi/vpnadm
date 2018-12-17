@@ -4,6 +4,7 @@ verify-x509-name {{ server.hostname }} name
 port {{ server.port }}
 proto {{ server.proto }}
 dev tun
+topology subnet
 auth-nocache
 cipher AES-256-GCM
 tls-version-min 1.2

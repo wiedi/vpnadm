@@ -30,6 +30,7 @@ class Command(BaseCommand):
 			client_conf = [
 				"ifconfig-push "      + c.ipv4 + " " + s.ipv4_netmask,
 				"ifconfig-ipv6-push " + c.ipv6 + "/" + str(s.ipv6_prefix),
+				"",
 			]
 
 			open(options['tmpfile'], 'wb').write("\n".join(client_conf).encode('utf-8'))
