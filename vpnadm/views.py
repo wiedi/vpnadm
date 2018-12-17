@@ -79,9 +79,9 @@ def client_download_config(request, pk):
 		'server': {
 			'ca_crt':   s.ca_crt,
 			'ta_key':   s.ta_key,
-			'proto':    settings.VPN_PROTO,
-			'port':     settings.VPN_SERVER_PORT,
-			'hostname': settings.VPN_HOSTNAME,
+			'proto':    settings.OPENVPN_PROTO,
+			'port':     settings.OPENVPN_SERVER_PORT,
+			'hostname': settings.OPENVPN_HOSTNAME,
 		},
 	})
 	response = HttpResponse(conf, content_type='application/octet-stream')
@@ -99,9 +99,11 @@ class ClientDelete(LoginRequiredMixin, DeleteView):
 class ServerSettingsUpdate(LoginRequiredMixin, UpdateView):
 	model = ServerSettings
 	fields = [
+		'server_ipv4',
 		'first_ipv4',
 		'last_ipv4',
 		'ipv4_netmask',
+		'server_ipv6',
 		'first_ipv6',
 		'last_ipv6',
 		'ipv6_prefix',

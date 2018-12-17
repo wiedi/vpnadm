@@ -64,13 +64,15 @@ class ServerSettings(SingletonModel):
 	ta_key       = models.TextField(blank = True)
 	dh           = models.TextField(blank = True)
 
+	server_ipv4  = models.GenericIPAddressField('Server IPv4 Address',       protocol = 'IPv4', default='10.0.0.1')
 	first_ipv4   = models.GenericIPAddressField('First Client IPv4 Address', protocol = 'IPv4', default='10.0.0.2')
 	last_ipv4    = models.GenericIPAddressField('Last Client IPv4 Address',  protocol = 'IPv4', default='10.0.0.253')
 	ipv4_netmask = models.GenericIPAddressField('IPv4 Client Netmask',       protocol = 'IPv4', default='255.255.255.0')
 
-	first_ipv6  = models.GenericIPAddressField('First Client IPv6 Address', protocol = 'IPv6', default='fd00:db8::3')
-	last_ipv6   = models.GenericIPAddressField('Last Client IPv6 Address', protocol = 'IPv6', default='fd00:db8::ffff')
-	ipv6_prefix = models.IntegerField('IPv6 Client Prefixlength', default = 64)
+	server_ipv6  = models.GenericIPAddressField('Server IPv6 Address',       protocol = 'IPv6', default='fd00:db8::1')
+	first_ipv6   = models.GenericIPAddressField('First Client IPv6 Address', protocol = 'IPv6', default='fd00:db8::2')
+	last_ipv6    = models.GenericIPAddressField('Last Client IPv6 Address',  protocol = 'IPv6', default='fd00:db8::ffff')
+	ipv6_prefix  = models.IntegerField('IPv6 Client Prefixlength', default = 64)
 
 	def ipv4_nets(self):
 		return ipaddress.summarize_address_range(
@@ -83,6 +85,12 @@ class ServerSettings(SingletonModel):
 			ipaddress.ip_address(self.first_ipv6),
 			ipaddress.ip_address(self.last_ipv6)
 		)
+
+	def ipv4_default_net(self):
+		return ipaddress.ip_interface(self.server_ipv4 + '/' + self.ipv4_netmask).network
+
+	def ipv6_default_net(self):
+		return ipaddress.ip_interface(self.server_ipv6 + '/' + self.ipv6_prefix).network
 
 	def _allocate(self, nets, used_addresses):
 		for addr in itertools.chain(*nets):

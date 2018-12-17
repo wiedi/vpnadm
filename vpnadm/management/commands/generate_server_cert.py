@@ -22,7 +22,7 @@ class Command(BaseCommand):
 			ca_key_pem     = s.ca_key,
 			ca_crt_pem     = s.ca_crt,
 			cert_type      = 'SERVER',
-			cn             = settings.VPN_HOSTNAME,
+			cn             = settings.OPENVPN_HOSTNAME,
 			serial         = generate_serial()
 		)
 

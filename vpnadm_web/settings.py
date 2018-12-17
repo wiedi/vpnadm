@@ -133,14 +133,11 @@ DH_KEYSIZE = '4096'
 
 CERT_LIFETIME_IN_DAYS = 360 * 25
 
+OPENVPN_PATH = '/opt/local/etc/openvpn'
+OPENVPN_PROTO           = 'udp'
+OPENVPN_SERVER_PORT     = 1194
+OPENVPN_HOSTNAME        = 'vpn.example.com'
+OPENVPN_MANAGEMENT_SOCKET = OPENVPN_PATH + '/manage.sock'
 
-VPN_SSL_PATH = '/opt/local/etc/openvpn/ssl/'
-
-# can be 'udp' or 'tcp'
-VPN_PROTO           = 'udp'
-VPN_SERVER_PORT     = 1194
-VPN_HOSTNAME        = 'vpn.example.com'
-VPN_MANAGEMENT_PORT = 1337
-
-
+MANAGE_COMMAND = '/opt/local/bin/python /opt/vpnadm/manage.py'
 
