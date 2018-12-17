@@ -10,9 +10,6 @@ from vpnadm.models import *
 class Command(BaseCommand):
 	help = 'call-back script for openvpn client-disconnect event'
 
-	def add_arguments(self, parser):
-		parser.add_argument('tmpfile',  type=str, help='Path to tmpfile')
-
 	def handle(self, *args, **options):
 		try:
 			cn     = os.environ['common_name']
@@ -25,9 +22,9 @@ class Command(BaseCommand):
 
 			c.last_connection_change = now()
 			c.connected      = False
-			c.bytes_received += os.environ['bytes_received']
-			c.bytes_sent     += os.environ['bytes_sent']
-			c.time_duration  += os.environ['time_duration']
+			c.bytes_received += int(os.environ['bytes_received'])
+			c.bytes_sent     += int(os.environ['bytes_sent'])
+			c.time_duration  += int(os.environ['time_duration'])
 			c.save()
 
 			return
