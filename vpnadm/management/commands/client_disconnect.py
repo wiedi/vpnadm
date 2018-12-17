@@ -21,10 +21,10 @@ class Command(BaseCommand):
 				raise Exception("CN does not match")
 
 			c.last_connection_change = now()
-			c.connected      = False
-			c.bytes_received += int(os.environ['bytes_received'])
-			c.bytes_sent     += int(os.environ['bytes_sent'])
-			c.time_duration  += int(os.environ['time_duration'])
+			c.connected              = False
+			c.bytes_received        += int(os.environ['bytes_received'])
+			c.bytes_sent            += int(os.environ['bytes_sent'])
+			c.connected_duration    += int(os.environ['time_duration'])
 			c.save()
 
 			return
