@@ -18,6 +18,16 @@ class Client(models.Model):
 	crt           = models.TextField(blank = True)
 	serial        = models.CharField(blank = True, max_length = 128)
 
+	# dynamic stats
+	connected              = models.BooleanField(default = False)
+	connected_duration     = models.BigIntegerField(default = 0)
+	last_connection_change = models.DateTimeField(null = True)
+	last_remote_ip         = models.CharField(max_length = 64, blank = True)
+	client_os              = models.CharField(max_length = 64, blank = True)
+	bytes_received         = models.BigIntegerField(default = 0)
+	bytes_sent             = models.BigIntegerField(default = 0)
+
+
 	def cn(self):
 		return self.user.username + '-' + slugify(self.name) + '-' + str(self.id)
 

@@ -31,8 +31,8 @@ tls-auth {{ openvpn_path }}/certs/tls_auth.key 0
 
 ## client-connect/disconnect
 script-security 3
-client-connect "{{ manage_command }} client_connect"
-#client-disconnect "{{ manage_command }} client_disconnect"
+client-connect    "{{ manage_command }} client_connect"
+client-disconnect "{{ manage_command }} client_disconnect"
 tmp-dir /tmp
 
 ## network settings

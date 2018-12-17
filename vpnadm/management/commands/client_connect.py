@@ -1,5 +1,6 @@
 import os
 import sys
+from django.utils.timezone import now
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from vpnadm.crypto import *
@@ -47,6 +48,11 @@ class Command(BaseCommand):
 			client_conf += [""]
 			open(options['tmpfile'], 'wb').write("\n".join(client_conf).encode('utf-8'))
 
+			c.last_connection_change = now()
+			c.connected      = True
+			c.last_remote_ip = os.environ['trusted_ip']
+			c.client_os      = os.environ['IV_PLAT']
+			c.save()
 
 			return
 		except Exception as e:
