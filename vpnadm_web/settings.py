@@ -135,8 +135,8 @@ CERT_LIFETIME_IN_DAYS = 360 * 25
 
 VPN_SSL_PATH = '/opt/local/etc/openvpn/ssl/'
 
-# can be 'UDP' or 'TCP'
-VPN_PROTO           = 'UDP'
+# can be 'udp' or 'tcp'
+VPN_PROTO           = 'udp'
 VPN_SERVER_PORT     = 1194
 VPN_HOSTNAME        = 'vpn.example.com'
 VPN_MANAGEMENT_PORT = 1337

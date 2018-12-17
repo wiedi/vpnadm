@@ -28,7 +28,7 @@ def generate_private_key_pem():
 	).decode('utf-8')
 	
 
-def sign_key(client_key_pem, ca_key_pem, ca_crt_pem, cn, serial):
+def sign_key(client_key_pem, ca_key_pem, ca_crt_pem, cert_type, cn, serial):
 	from cryptography.hazmat.primitives import serialization
 	from cryptography.hazmat.primitives.serialization import load_pem_private_key
 	from cryptography.hazmat.backends import default_backend
@@ -40,9 +40,39 @@ def sign_key(client_key_pem, ca_key_pem, ca_crt_pem, cn, serial):
 	ca_crt     = x509.load_pem_x509_certificate(ca_crt_pem.encode('utf-8'), default_backend())
 
 	subject = x509.Name([
-		x509.NameAttribute(NameOID.COMMON_NAME,              cn)
+		x509.NameAttribute(NameOID.COMMON_NAME, cn)
 	])
-	
+
+	if cert_type == 'CLIENT':
+		key_usage = x509.KeyUsage(
+			key_cert_sign      = False,
+			crl_sign           = False,
+			digital_signature  = True,
+			content_commitment = False,
+			key_encipherment   = False,
+			data_encipherment  = False,
+			key_agreement      = False,
+			encipher_only      = False,
+			decipher_only      = False,
+		)
+		extended_key_usage = x509.ExtendedKeyUsage([x509.oid.ExtendedKeyUsageOID.CLIENT_AUTH])
+	elif cert_type == 'SERVER':
+		key_usage = x509.KeyUsage(
+			key_cert_sign      = False,
+			crl_sign           = False,
+			digital_signature  = True,
+			content_commitment = False,
+			key_encipherment   = True,
+			data_encipherment  = False,
+			key_agreement      = False,
+			encipher_only      = False,
+			decipher_only      = False,
+		)
+		extended_key_usage = x509.ExtendedKeyUsage([x509.oid.ExtendedKeyUsageOID.SERVER_AUTH])
+	else:
+		raise Error('Invalid cert_type')
+
+
 	cert = x509.CertificateBuilder().subject_name(
 		subject
 	).issuer_name(
@@ -56,20 +86,10 @@ def sign_key(client_key_pem, ca_key_pem, ca_crt_pem, cn, serial):
 	).not_valid_after(
 		datetime.datetime.utcnow() + datetime.timedelta(days = settings.CERT_LIFETIME_IN_DAYS)
 	).add_extension(
-		x509.KeyUsage(
-			key_cert_sign      = False,
-			crl_sign           = False,
-			digital_signature  = True,
-			content_commitment = False,
-			key_encipherment   = True,
-			data_encipherment  = False,
-			key_agreement      = False,
-			encipher_only      = False,
-			decipher_only      = False,
-		),
-		critical = True,
+		key_usage,
+		critical = True
 	).add_extension(
-		x509.ExtendedKeyUsage([x509.oid.ExtendedKeyUsageOID.CLIENT_AUTH]),
+		extended_key_usage,
 		critical = True,
 	).add_extension(
 		x509.SubjectAlternativeName([x509.DNSName(cn)]),
@@ -78,7 +98,7 @@ def sign_key(client_key_pem, ca_key_pem, ca_crt_pem, cn, serial):
 
 	cert_pem = cert.public_bytes(encoding = serialization.Encoding.PEM)
 
-	return cert_pem
+	return cert_pem.decode('utf-8')
 
 
 def generate_ca():

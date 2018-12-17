@@ -25,13 +25,22 @@ class Client(models.Model):
 		s = ServerSettings.get()
 		self.serial = generate_serial()
 		self.key    = generate_private_key_pem()
-		self.crt    = sign_key(self.key, s.ca_key, s.ca_crt, self.cn(), self.serial)
+		self.crt    = sign_key(
+			client_key_pem = self.key,
+			ca_key_pem     = s.ca_key,
+			ca_crt_pem     = s.ca_crt,
+			cert_type      = 'CLIENT',
+			cn             = self.cn(),
+			serial         = self.serial
+		)
 		self.save()
 
 
 class ServerSettings(SingletonModel):
 	ca_key      = models.TextField(blank = True)
 	ca_crt      = models.TextField(blank = True)
+	ta_key      = models.TextField(blank = True)
+	dh          = models.TextField(blank = True)
 
 	first_ipv4  = models.GenericIPAddressField(protocol = 'IPv4', default='10.0.0.2')
 	last_ipv4   = models.GenericIPAddressField(protocol = 'IPv4', default='10.0.0.253')

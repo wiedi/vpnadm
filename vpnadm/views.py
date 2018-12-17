@@ -77,6 +77,7 @@ def client_download_config(request, pk):
 		'client': c,
 		'server': {
 			'ca_crt':   s.ca_crt,
+			'ta_key':   s.ta_key,
 			'proto':    settings.VPN_PROTO,
 			'port':     settings.VPN_SERVER_PORT,
 			'hostname': settings.VPN_HOSTNAME,
