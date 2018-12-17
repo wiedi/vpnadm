@@ -6,6 +6,7 @@ proto {{ server.proto }}
 dev tun
 topology subnet
 auth-nocache
+explicit-exit-notify
 cipher AES-256-GCM
 tls-version-min 1.2
 remote-cert-tls server
