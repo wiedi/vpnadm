@@ -26,6 +26,15 @@ class Command(BaseCommand):
 			if serial != c.serial:
 				raise Exception("Serial does not match. Possibly revoked cert")
 
+			s = ServerSettings.get()
+			client_conf = [
+				"ifconfig-push "      + c.ipv4 + " " + s.ipv4_netmask,
+				"ifconfig-ipv6-push " + c.ipv6 + "/" + str(s.ipv6_prefix),
+			]
+
+			open(options['tmpfile'], 'wb').write("\n".join(client_conf).encode('utf-8'))
+
+
 			return
 		except Exception as e:
 			print(e)

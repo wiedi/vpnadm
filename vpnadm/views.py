@@ -97,7 +97,14 @@ class ClientDelete(LoginRequiredMixin, DeleteView):
 
 class ServerSettingsUpdate(LoginRequiredMixin, UpdateView):
 	model = ServerSettings
-	fields = ['first_ipv4', 'last_ipv4', 'first_ipv6', 'last_ipv6']
+	fields = [
+		'first_ipv4',
+		'last_ipv4',
+		'ipv4_netmask',
+		'first_ipv6',
+		'last_ipv6',
+		'ipv6_prefix',
+	]
 	success_url = reverse_lazy('serversettings_update')
 
 	def get_object(self, queryset = None):
