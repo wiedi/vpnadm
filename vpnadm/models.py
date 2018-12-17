@@ -46,6 +46,13 @@ class Route4(models.Model):
 	client  = models.ForeignKey(Client, null = True, blank = True)
 
 	def __str__(self):
+		return self.target + ' ' + str(self.netmask)
+
+	def client_route(self):
+		s = ServerSettings.get()
+		return self.target + ' ' + str(self.netmask) + ' ' + s.server_ipv4
+
+	def server_route(self):
 		gw = ''
 		if self.client:
 			gw = ' ' + self.client.ipv4
@@ -58,10 +65,17 @@ class Route6(models.Model):
 	client  = models.ForeignKey(Client, null = True, blank = True)
 
 	def __str__(self):
+		return self.target + '/' + str(self.prefix)
+
+	def client_route(self):
+		s = ServerSettings.get()
+		return self.target + ' ' + str(self.prefix) + ' ' + s.server_ipv6
+
+	def server_route(self):
 		gw = ''
 		if self.client:
 			gw = ' ' + self.client.ipv6
-		return self.target + '/' + str(self.prefix) + gw
+		return self.target + ' ' + str(self.prefix) + gw
 
 
 class ServerSettings(SingletonModel):

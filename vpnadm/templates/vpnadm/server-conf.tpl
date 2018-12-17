@@ -43,6 +43,6 @@ ifconfig-ipv6 {{ server.server_ipv6 }}/{{ server.ipv6_prefix }} {{ server.server
 
 ## dynamic routes
 {% for r in route4 %}
-route {{ r }}{% endfor %}
+route {{ r.server_route }}{% endfor %}
 {% for r in route6 %}
-route-ipv6 {{ r }}{% endfor %}
+route-ipv6 {{ r.server_route }}{% endfor %}
