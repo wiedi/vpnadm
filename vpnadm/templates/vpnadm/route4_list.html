@@ -19,7 +19,7 @@
 	<tr>
 		<td title="{{ r }}">{{ r.target }}</td>
 		<td>{{ r.netmask }}</td>
-		<td>{{ r.client|default:'-' }}</td>
+		<td>{% if r.client %}{{ r.client.ipv4 }} ({{ r.client }}){% else %}-{% endif %}</td>
 		<td>
 			<form action="{% url 'route4_delete' r.id %}" method="post" class="confirm-delete inline-form pull-right">
 				{% csrf_token %}
