@@ -1,10 +1,9 @@
 mode server
 proto {{ proto }}
 port {{ port }}
-#dev tun0
-#persist-key
-#persist-tun
-dev tun
+dev tun0
+persist-key
+persist-tun
 
 max-clients 2048
 keepalive 10 60

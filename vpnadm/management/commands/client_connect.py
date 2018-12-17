@@ -33,10 +33,10 @@ class Command(BaseCommand):
 			]
 
 			for r4 in Route4.objects.all():
-				client_conf += ["route " + str(r4), 'push "route ' + str(r4) + '"']
+				client_conf += ['push "route ' + str(r4) + '"']
 
 			for r6 in Route6.objects.all():
-				client_conf += ["route-ipv6 " + str(r6), 'push "route-ipv6 ' + str(r6) + '"']
+				client_conf += ['push "route-ipv6 ' + str(r6) + '"']
 
 			for r4 in Route4.objects.filter(client = c):
 				client_conf += ["iroute " + str(r4)]
