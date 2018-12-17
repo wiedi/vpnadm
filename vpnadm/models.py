@@ -90,7 +90,7 @@ class ServerSettings(SingletonModel):
 		return ipaddress.ip_interface(self.server_ipv4 + '/' + self.ipv4_netmask).network
 
 	def ipv6_default_net(self):
-		return ipaddress.ip_interface(self.server_ipv6 + '/' + self.ipv6_prefix).network
+		return ipaddress.ip_interface(self.server_ipv6 + '/' + str(self.ipv6_prefix)).network
 
 	def _allocate(self, nets, used_addresses):
 		for addr in itertools.chain(*nets):
