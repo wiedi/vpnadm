@@ -79,13 +79,13 @@ class Route6(models.Model):
 
 	def client_route(self):
 		s = ServerSettings.get()
-		return self.target + ' ' + str(self.prefix) + ' ' + s.server_ipv6
+		return self.target + '/' + str(self.prefix) + ' ' + s.server_ipv6
 
 	def server_route(self):
 		gw = ''
 		if self.client:
 			gw = ' ' + self.client.ipv6
-		return self.target + ' ' + str(self.prefix) + gw
+		return self.target + '/' + str(self.prefix) + gw
 
 
 class ServerSettings(SingletonModel):
