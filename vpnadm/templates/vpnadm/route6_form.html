@@ -3,6 +3,9 @@
 
 {% block content %}
 	<h1>Add new IPv6 Route</h1>
+
+	{% bootstrap_messages %}
+
 	<form method="post" class="form-horizontal" role="form">
 		{% csrf_token %}
 		{% bootstrap_form form layout='horizontal' %}

@@ -96,7 +96,7 @@ class ClientDelete(LoginRequiredMixin, DeleteView):
 
 
 
-class ServerSettingsUpdate(LoginRequiredMixin, UpdateView):
+class ServerSettingsUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 	model = ServerSettings
 	fields = [
 		'server_ipv4',
@@ -109,6 +109,7 @@ class ServerSettingsUpdate(LoginRequiredMixin, UpdateView):
 		'ipv6_prefix',
 	]
 	success_url = reverse_lazy('serversettings_update')
+	success_message = "Settings saved"
 
 	def get_object(self, queryset = None):
 		return ServerSettings.get()
