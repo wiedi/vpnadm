@@ -37,8 +37,7 @@ tmp-dir /tmp
 
 ## network settings
 ifconfig      {{ server.server_ipv4 }} {{ server.ipv4_netmask }}
-route-gateway {{ server.server_ipv4 }}
-# route {{ server.ipv4_default_net.network_address }} {{ server.ipv4_netmask }}
+route {{ server.ipv4_default_net.network_address }} {{ server.ipv4_netmask }}
 
 ifconfig-ipv6 {{ server.server_ipv6 }}/{{ server.ipv6_prefix }} {{ server.server_ipv6 }}
 route-ipv6 {{ server.ipv6_default_net }}
