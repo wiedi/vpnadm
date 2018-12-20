@@ -10,15 +10,15 @@ from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.template import Context, Template
 from django.conf import settings
-from braces import views
+from vpnadm.utils import StaffRequiredMixin
 
 from staffpanel.forms import UserCreateForm
 
-class UserList(LoginRequiredMixin, views.StaffuserRequiredMixin, ListView):
+class UserList(LoginRequiredMixin, StaffRequiredMixin, ListView):
 	model = User
 
 
-class UserDelete(LoginRequiredMixin, views.StaffuserRequiredMixin, DeleteView):
+class UserDelete(LoginRequiredMixin, StaffRequiredMixin, DeleteView):
 	model = User
 	success_url = reverse_lazy('staffpanel_user_list')
 
