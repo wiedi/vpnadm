@@ -9,7 +9,7 @@ from vpnadm.crypto import *
 
 
 class Client(models.Model):
-	user          = models.ForeignKey(User)
+	user          = models.ForeignKey(User, on_delete = models.CASCADE)
 	name          = models.CharField(max_length = 255)
 	ipv4          = models.GenericIPAddressField(protocol = 'IPv4', unique = True)
 	ipv6          = models.GenericIPAddressField(protocol = 'IPv6', unique = True)
@@ -53,7 +53,7 @@ class Client(models.Model):
 class Route4(models.Model):
 	target  = models.GenericIPAddressField(protocol = 'IPv4')
 	netmask = models.GenericIPAddressField(protocol = 'IPv4')
-	client  = models.ForeignKey(Client, null = True, blank = True)
+	client  = models.ForeignKey(Client, null = True, blank = True, on_delete = models.CASCADE)
 
 	def __str__(self):
 		return self.target + ' ' + str(self.netmask)
@@ -72,7 +72,7 @@ class Route4(models.Model):
 class Route6(models.Model):
 	target  = models.GenericIPAddressField(protocol = 'IPv6')
 	prefix  = models.IntegerField(default = 64)
-	client  = models.ForeignKey(Client, null = True, blank = True)
+	client  = models.ForeignKey(Client, null = True, blank = True, on_delete = models.CASCADE)
 
 	def __str__(self):
 		return self.target + '/' + str(self.prefix)
