@@ -122,7 +122,7 @@ STATIC_ROOT = BASE_DIR + '/static-public/'
 
 ## CA Defaults
 
-CA_LIFETIME_IN_DAYS = 360 * 50
+CA_LIFETIME_IN_DAYS = 360 * 100
 CA_CN = 'VPN CA'
 CA_O  = 'O'
 CA_OU = 'OU'
@@ -131,7 +131,7 @@ CA_ST = 'ST'
 CA_C  = 'UN'
 DH_KEYSIZE = '4096'
 
-CERT_LIFETIME_IN_DAYS = 360 * 25
+CERT_LIFETIME_IN_DAYS = 360 * 50
 
 OPENVPN_PATH = '/opt/local/etc/openvpn'
 OPENVPN_PROTO           = 'udp'
