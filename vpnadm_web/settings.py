@@ -80,10 +80,13 @@ WSGI_APPLICATION = 'vpnadm_web.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
+# allow db dir to be overwritten
+DB_DIR = BASE_DIR
+
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+		'NAME': os.path.join(DB_DIR, 'db.sqlite3'),
 	}
 }
 
