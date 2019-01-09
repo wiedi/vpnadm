@@ -15,7 +15,7 @@ class Command(BaseCommand):
 			subprocess.check_output(['openvpn', '--genkey', '--secret', t.name])
 
 			s = ServerSettings.get()
-			s.ta_key = t.read()
+			s.ta_key = t.read().decode('utf-8')
 			s.save()
 
-		print(s.ta_key.decode('utf-8'))
+		print(s.ta_key)
