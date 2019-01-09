@@ -77,11 +77,12 @@ def client_download_config(request, pk):
 	conf = render_to_string('vpnadm/client-conf.tpl', {
 		'client': c,
 		'server': {
-			'ca_crt':   s.ca_crt,
-			'ta_key':   s.ta_key,
-			'proto':    settings.OPENVPN_PROTO,
-			'port':     settings.OPENVPN_SERVER_PORT,
-			'hostname': settings.OPENVPN_HOSTNAME,
+			'ca_crt':      s.ca_crt,
+			'ta_key':      s.ta_key,
+			'server_ipv4': s.server_ipv4,
+			'proto':       settings.OPENVPN_PROTO,
+			'port':        settings.OPENVPN_SERVER_PORT,
+			'hostname':    settings.OPENVPN_HOSTNAME,
 		},
 	})
 	response = HttpResponse(conf, content_type='application/octet-stream')

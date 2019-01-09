@@ -12,10 +12,15 @@ tls-version-min 1.2
 remote-cert-tls server
 
 # default route choices:
-#   nothing                  #  no default route
-#redirect-gateway def1       # ipv4 only
-#redirect-gateway ipv6 !ipv4 # ipv6 only
-#redirect-gateway ipv6 def1  # ipv6 + ipv4
+# nothing - no default route
+# ipv4 only:
+#	route-gateway {{ server.server_ipv4 }}
+#	redirect-gateway def1
+# ipv6 only:
+#	redirect-gateway ipv6 !ipv4
+# ipv4 + ipv6:
+#	route-gateway {{ server.server_ipv4 }}
+#	redirect-gateway ipv6 def1
 
 <ca>
 {{ server.ca_crt }}</ca>
