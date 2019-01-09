@@ -16,12 +16,11 @@
 		{% if user.is_staff %}
 		<th>User</th>
 		{% endif %}
-		<th>Client Name</th>
+		<th>Name</th>
 		<th>IPv4</th>
 		<th>IPv6</th>
-		<th>Last remote IP</th>
-		<th>Client OS</th>
-		<th>Downloaded / Uploaded</th>
+		<th>Last Connection</th>
+		<th class="visible-lg">Downloaded / Uploaded</th>
 		<th>&nbsp;</th>
 	</tr>
 	</thead>
@@ -40,9 +39,8 @@
 		<td title="{{ client.cn }}">{{ client.name }}</td>
 		<td>{{ client.ipv4 }}</td>
 		<td>{{ client.ipv6 }}</td>
-		<td>{{ client.last_remote_ip }}</td>
-		<td>{{ client.client_os }}</td>
-		<td>{{ client.bytes_received|filesizeformat}} / {{ client.bytes_sent|filesizeformat}}</td>
+		<td title="OS: {{ client.client_os }}">{{ client.last_remote_ip }}</td>
+		<td class="visible-lg">{{ client.bytes_received|filesizeformat}} / {{ client.bytes_sent|filesizeformat}}</td>
 		<td>
 			<form action="{% url 'client_delete' client.id %}" method="post" class="confirm-delete inline-form pull-right">
 				{% csrf_token %}
@@ -51,7 +49,7 @@
 
 			<form action="{% url 'client_reset_cert' client.id %}" method="post" class="confirm-delete inline-form pull-right">
 				{% csrf_token %}
-				<input type="submit" value="Reset Certificate" class="btn btn-xs btn-default"/>
+				<input type="submit" value="Reset Key" class="btn btn-xs btn-default"/>
 				&nbsp;
 			</form>
 			<span class="pull-right">
