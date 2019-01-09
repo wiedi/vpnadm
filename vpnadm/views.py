@@ -25,7 +25,7 @@ class ClientList(LoginRequiredMixin, ListView):
 	def get_queryset(self):
 		if not self.request.user.is_staff:
 			return Client.objects.filter(user = self.request.user)
-		return Client.objects.all()
+		return Client.objects.all().order_by('ipv4')
 
 
 class ClientCreate(LoginRequiredMixin, CreateView):
