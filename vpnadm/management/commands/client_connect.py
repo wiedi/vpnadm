@@ -49,9 +49,12 @@ class Command(BaseCommand):
 			open(options['tmpfile'], 'wb').write("\n".join(client_conf).encode('utf-8'))
 
 			c.last_connection_change = now()
-			c.connected      = True
-			c.last_remote_ip = os.environ['trusted_ip']
-			c.client_os      = os.environ['IV_PLAT']
+			c.connected = True
+			c.client_os = os.environ.get('IV_PLAT', '')
+			if 'trusted_ip6' in os.environ:
+				c.last_remote_ip = os.environ['trusted_ip6']
+			elif 'trusted_ip' in os.environ:
+				c.last_remote_ip = os.environ['trusted_ip']
 			c.save()
 
 			return
