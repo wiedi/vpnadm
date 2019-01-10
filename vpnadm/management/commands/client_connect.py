@@ -33,10 +33,10 @@ class Command(BaseCommand):
 				"ifconfig-ipv6-push " + c.ipv6 + "/" + str(s.ipv6_prefix),
 			]
 
-			for r4 in Route4.objects.all():
+			for r4 in Route4.objects.exclude(client = c):
 				client_conf += ['push "route ' + r4.client_route() + '"']
 
-			for r6 in Route6.objects.all():
+			for r6 in Route6.objects.exclude(client = c):
 				client_conf += ['push "route-ipv6 ' + r6.client_route() + '"']
 
 			for r4 in Route4.objects.filter(client = c):
