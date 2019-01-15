@@ -10,6 +10,8 @@ keepalive 10 60
 
 topology subnet
 client-to-client
+# ios requires this:
+push "topology subnet"
 
 verb 3
 mute 20
